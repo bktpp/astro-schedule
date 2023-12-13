@@ -3,8 +3,6 @@ const planets = require("./planets.mongo");
 
 const DEFAULT_FLIGHT_NUMBER = 100;
 
-const launches = new Map();
-
 const launch = {
    flightNumber: 100,
    mission: "Kepler Exploration X",
