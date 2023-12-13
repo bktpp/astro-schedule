@@ -16,8 +16,8 @@ mongoose.connection.once("open", () => {
    console.log("mongoDB connection ready");
 });
 
-mongoose.connection.on("error", (err) => {
-   console.error(err);
+mongoose.connection.on("error", (error) => {
+   console.error(`An error occurred on connection: ${error}`);
 });
 
 async function startServer() {
