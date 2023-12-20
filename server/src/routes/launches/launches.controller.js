@@ -3,10 +3,14 @@ const {
    existsLaunchWithId,
    abortLaunchById,
    scheduleNewLaunch,
-} = require("../../models/launches.model");
+} = require('../../models/launches.model');
+
+const { getPagination } = require('../../services/query');
 
 async function httpGetAllLaunches(req, res) {
-   return res.status(200).json(await getAllLaunches());
+   const { skip, limit } = getPagination(req.query);
+   const launches = await getAllLaunches(skip, limit);
+   return res.status(200).json(launches);
 }
 
 async function httpAddNewLaunch(req, res) {
@@ -14,15 +18,15 @@ async function httpAddNewLaunch(req, res) {
 
    if (!launch.mission || !launch.rocket || !launch.launchDate || !launch.target) {
       return res.status(400).json({
-         error: "Missing required launch property",
+         error: 'Missing required launch property',
       });
    }
 
    launch.launchDate = new Date(launch.launchDate);
    // Can use either conditions. Don't need to use both
-   if (isNaN(launch.launchDate) || launch.launchDate.toString() === "Invalid Date") {
+   if (isNaN(launch.launchDate) || launch.launchDate.toString() === 'Invalid Date') {
       return res.status(400).json({
-         error: "Invalid launch date",
+         error: 'Invalid launch date',
       });
    }
    await scheduleNewLaunch(launch);
@@ -35,7 +39,7 @@ async function httpAbortLaunch(req, res) {
 
    if (!existsLaunch) {
       return res.status(404).json({
-         error: "launch not found.",
+         error: 'launch not found.',
       });
    }
 
@@ -43,7 +47,7 @@ async function httpAbortLaunch(req, res) {
 
    if (!aborted) {
       return res.status(400).json({
-         error: "Launch not aborted",
+         error: 'Launch not aborted',
       });
    }
    return res.status(200).json({
