@@ -1,13 +1,12 @@
-const mongoose = require("mongoose");
+const mongoose = require('mongoose');
 
-const MONGO_URL =
-   "mongodb+srv://bktpdev:CpiL0JVs25rDq30I@cluster0.rgvlhdy.mongodb.net/astro?retryWrites=true&w=majority";
+const MONGO_URL = process.env.MONGO_URL;
 
-mongoose.connection.once("open", () => {
-   console.log("mongoDB connection ready");
+mongoose.connection.once('open', () => {
+   console.log('mongoDB connection ready');
 });
 
-mongoose.connection.on("error", (error) => {
+mongoose.connection.on('error', (error) => {
    console.error(`An error occurred on connection: ${error}`);
 });
 
